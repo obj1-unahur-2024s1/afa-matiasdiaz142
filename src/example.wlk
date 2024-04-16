@@ -1,16 +1,20 @@
 //Festejo
 
 object festejo{
-	const invitado = messi
-	const lugar = bombonera
-	const precioEntrada = 10000 * (inflacion.porcentajeInflacion()+1)
+	var invitado = messi
+	var lugar = bombonera
 	const costoLogistica = 10000000
 	
+	method invitado(unInvitado){invitado = unInvitado}
+	method lugar(unLugar){lugar = unLugar}
+	method precioEntrada(){
+		return 10000 * (inflacion.porcentajeInflacion()+1)
+	}
 	method entradasVendidas(){
 		return (messi.popularidad()/100)*lugar.capacidad()
 	}
 	method recaudacionTotal(){
-		return self.entradasVendidas()*precioEntrada
+		return self.entradasVendidas()*self.precioEntrada()
 	}
 	method gananciaNeta(){
 		return self.recaudacionTotal() - invitado.viaticos() - costoLogistica - lugar.alquiler()
@@ -27,13 +31,21 @@ object bombonera{
 }
 
 object monumental{
-	var estadoAvanceObras = 70
+	var estadoAvanceObras = 90
 	const alquiler = 80000000
-	method capacidad() = 70000 * estadoAvanceObras
+	method capacidad() = 70000 * (estadoAvanceObras/100)
 	method alquiler() = alquiler
 	method avanzarObras(unPorcentaje){
 		estadoAvanceObras = 100.min(estadoAvanceObras + unPorcentaje)
 	}
+	method estadoAvanceObras() = estadoAvanceObras
+}
+
+object campNou{
+	const capacidad = 55000
+	const alquiler = 100000000
+	method capacidad() = capacidad
+	method alquiler() = alquiler
 }
 
 //Jugadores
@@ -53,6 +65,7 @@ object ronaldo{
 	method popularidad() = popularidad
 	method viaticos() = viaticos
 	method ubicacionJugador(unLugar){ubicacionJugador = unLugar}
+	method ubicacionJugador() = ubicacionJugador
 }
 
 object mbappe{
@@ -62,7 +75,15 @@ object mbappe{
 	const viaticos = 10000000
 	method popularidad() = popularidad
 	method viaticos() = viaticos
+	method edad() = edad
 	method cumplirAnios(){edad = edad + 1}
+}
+
+object riquelme{
+	var popularidad = 51
+	const viaticos = 6000000
+	method popularidad() = popularidad
+	method viaticos() = viaticos
 }
 
 //Lugar
@@ -71,7 +92,7 @@ object antartida{}
 //Otros
 
 object inflacion{
-	var porcentajeInflacion = 15
+	var porcentajeInflacion = 0
 	method porcentajeInflacion() = porcentajeInflacion/100
 	method porcentajeInflacion(nuevoPorcentaje){porcentajeInflacion = nuevoPorcentaje}
 }
